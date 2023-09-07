@@ -14,61 +14,61 @@ import { find } from "lodash";
 
 interface ConversationListProps {
     initialItems: FullConversationType[];
-}
+  }
 
 const ConversationList: React.FC<ConversationListProps> = ({
     initialItems
 }) => {
-    const session = useSession();
     const [items, setItems] = useState(initialItems);
 
     const router = useRouter();
+    const session = useSession();
 
     const { conversationId, isOpen } = useConversation();
 
-    const pusherKey = useMemo(() => {
-        return session.data?.user?.email;
-    }, [session.data?.user?.email]);
+    // const pusherKey = useMemo(() => {
+    //     return session.data?.user?.email;
+    // }, [session.data?.user?.email]);
 
-    useEffect(() => {
-        if(!pusherKey) {
-            return;
-        }
+    // useEffect(() => {
+    //     if(!pusherKey) {
+    //         return;
+    //     }
 
-        pusherClient.subscribe(pusherKey);
+    //     // pusherClient.subscribe(pusherKey);
 
-        const newHandler = (conversation: FullConversationType) => {
-            setItems((current) => {
-                if (find(current, {id: conversation.id})) {
-                    return current;
-                }
+    //     // const updateHandler = (conversation: FullConversationType) => {
+    //     //     setItems((current) => current.map((currentConversation) => {
+    //     //       if (currentConversation.id === conversation.id) {
+    //     //         return {
+    //     //           ...currentConversation,
+    //     //           messages: conversation.messages
+    //     //         };
+    //     //       }
+      
+    //     //       return currentConversation;
+    //     //     }));
+    //     // }
+      
+    //     // const newHandler = (conversation: FullConversationType) => {
+    //     //     setItems((current) => {
+    //     //         if (find(current, { id: conversation.id })) {
+    //     //         return current;
+    //     //         }
+        
+    //     //         return [conversation, ...current]
+    //     //     });
+    //     // }
 
-                return [conversation, ...current]; 
-            });
-        };
+    //     // pusherClient.bind('conversation:new', newHandler); 
+    //     // pusherClient.bind('conversation:update', updateHandler);
 
-        const updateHandler = (conversation: FullConversationType) => {
-            setItems((current) => current.map((currentConversation) => {
-                if (currentConversation.id == conversation.id) {
-                    return {
-                        ...currentConversation,
-                        messages: conversation.messages
-                    }
-                }
-
-                return currentConversation;
-            }));
-        }
-
-        pusherClient.bind('conversation:new', newHandler); 
-        pusherClient.bind('conversation:update', updateHandler);
-
-        return () => {
-            pusherClient.unsubscribe(pusherKey);
-            pusherClient.unbind('conversation:new', newHandler);
-            pusherClient.unbind('conversation:update', updateHandler);
-        }
-    }, [pusherKey]);
+    //     // return () => {
+    //     //     pusherClient.unsubscribe(pusherKey);
+    //     //     pusherClient.unbind('conversation:new', newHandler);
+    //     //     pusherClient.unbind('conversation:update', updateHandler);
+    //     // }
+    // }, [pusherKey]);
 
     return (
         <aside
