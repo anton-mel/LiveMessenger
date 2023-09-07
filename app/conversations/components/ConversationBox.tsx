@@ -107,7 +107,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
                                 text-gray-400
                                 font-light
                             ">
-                                {format(new Date(lastMessage.createAt), 'p')}
+                                {format(new Date(lastMessage.createdAt), 'p')}
                             </p>
                         )}
                     </div>
