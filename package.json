@@ -43,7 +43,6 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.198",
-    "encoding": "^0.1.13",
     "prisma": "^4.14.1"
   }
 }
